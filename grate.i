@@ -1,11 +1,18 @@
 import shapes
 import images
+import text
+import colors
 
 .python import pygame
 .python import sys
+.python import pygame.gfxdraw
 .python from pygame.locals import *
 
 function draw() {
+
+}
+
+function update() {
 
 }
 
@@ -119,7 +126,6 @@ function delta() n {
 	
 	.python global grate_dt
 	.python n = int(grate_dt*10)
-	.python print(grate_dt)
 	
 	.java n = new Stack.Number(MainActivity.delta());
 	
@@ -144,13 +150,23 @@ function delta() n {
 
 .python grate_dt = 0
 
+function clear() {
+	.java MainActivity.canvas.drawPaint(MainActivity.paint);
+   	.python pygame.display.get_surface().fill(grate_color)
+}
+
 function grate() {
 
 	.python {
 		global grate_dt
+		global grate_font
+		
 		pygame.init()
+		pygame.font.init()
 		windowSurface = pygame.display.set_mode((800, 600), 0, 32)
 		pygame.display.set_caption("Grate Game")
+		
+		grate_font = pygame.font.SysFont("monospace", 20)
 		
 		Game(stack)
 		game = stack.grab()
@@ -159,7 +175,6 @@ function grate() {
 		
 		# run the game loop
 		while True:
-			\t windowSurface.fill((0, 0, 0))
 			\t stack.share(game)
 			\t update_m_Game(stack)
 			\t stack.share(game)

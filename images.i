@@ -18,8 +18,12 @@ method draw() {
 	.java {
 		int w = MainActivity.images.get(p.String()).getIntrinsicWidth();
 		int h =  MainActivity.images.get(p.String()).getIntrinsicHeight();
-		MainActivity.images.get(p.String()).setBounds(X.intValue()/10 - w/2, Y.intValue()/10 - h/2,
-				X.intValue()/10 + w/2, Y.intValue()/10 + h/2);
+		MainActivity . images . get ( p . String ( ) ) . setBounds ( 
+				X . intValue ( ) / 10 - (int)(((float)w)*(.8)), 
+				Y . intValue ( ) / 10 - (int)(((float)h)*(.8)) ,
+				X . intValue ( ) / 10 + (int)(((float)w)*(.8)) , 
+				Y . intValue ( ) / 10 + (int)(((float)h)*(.8)) 
+		) ;
 		MainActivity.images.get(p.String()).draw(MainActivity.canvas);
 	}
 }

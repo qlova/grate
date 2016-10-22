@@ -6,7 +6,7 @@ method draw() {
 	var X = x
 	var Y = y
 	var R = r
-	.python pygame.draw.circle(pygame.display.get_surface(), (255, 0, 0), (int(X/10), int(Y/10)), int(R/10), 0)
+	.python pygame.gfxdraw.filled_circle(pygame.display.get_surface(), int(X/10), int(Y/10), int(R/10), grate_color)
 	
 	.java MainActivity.canvas.drawCircle(X.intValue()/10, Y.intValue()/10, R.intValue()/10, MainActivity.paint);
 	
