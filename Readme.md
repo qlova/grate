@@ -8,8 +8,8 @@ Development status:
 
 The only features the game currently has are:
 
-* Drawing Circles
-* Left,Right,Up,Down input.
+* Drawing Circles, Images and Text.
+* Left,Right,Up,Down and Action input.
 
 Please wait until development matures!
 
