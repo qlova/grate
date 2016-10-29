@@ -2,7 +2,7 @@ type Circle {
 	x, y, r
 }
 
-method draw() {
+method draw(Circle) {
 	var X = x
 	var Y = y
 	var R = r

@@ -5,7 +5,7 @@ type Text {
 	x, y
 }
 
-method draw() {
+method draw(Text) {
 	var X = x
 	var Y = y
 	var Txt = txt

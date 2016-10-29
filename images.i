@@ -5,7 +5,7 @@ type Image {
 
 .python grate_images = {}
 
-method draw() {
+method draw(Image) {
 	var p = path
 	var X = x
 	var Y = y
@@ -28,14 +28,13 @@ method draw() {
 	}
 }
 
-method load() "" {
-	print("loading")
+method load(Image) "" {
 	var p = path
 	.python {
 		filename = ""
 		for i in range(0, len(p)):
 			\t filename = filename + chr(p[i])
-		grate_images[str(p)] = pygame.image.load(filename)
+		grate_images[str(p)] = pygame.image.load("data/"+filename)
 		grate_images[str(p)].convert()
 	}
 	

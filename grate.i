@@ -2,6 +2,7 @@ import shapes
 import images
 import text
 import colors
+import mouse
 
 .python import pygame
 .python import sys
@@ -168,13 +169,14 @@ function grate() {
 		
 		grate_font = pygame.font.SysFont("monospace", 20)
 		
-		Game(stack)
+		new_m_Game(stack)
 		game = stack.grab()
 		
 		clock = pygame.time.Clock()
 		
 		# run the game loop
 		while True:
+			\t pygame.display.get_surface().fill(grate_color)
 			\t stack.share(game)
 			\t update_m_Game(stack)
 			\t stack.share(game)

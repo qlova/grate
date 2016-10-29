@@ -4,10 +4,7 @@ type Color {
 	r, g, b, a
 }
 
-function set() {
-}
-
-method set() {
+method set(Color) {
 	.python global grate_color
 	var R = r
 	var G = g
