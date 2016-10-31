@@ -200,7 +200,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 paint.setStyle(Paint.Style.FILL);
                 canvas.drawPaint(paint);
                 paint.setColor(Color.WHITE);
+            } else {
+            	canvas.drawPaint(paint);
             }
+            
 
             currentTime = System.currentTimeMillis();
             dt = currentTime - lastTime;

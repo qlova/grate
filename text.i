@@ -20,4 +20,24 @@ method draw(Text) {
 	}
 	
 	.java MainActivity.canvas.drawText(Txt.String(), X.intValue()/10, Y.intValue()/10+MainActivity.paint.getTextSize(), MainActivity.paint);
+	
+	.javascript {
+		var name = ""
+		for (var i = 0; i < Txt.length; i = i + 1) {
+			name = name + String.fromCharCode(Txt[i])
+		}
+		//console.log()
+		context.fillStyle = "rgb( 255 , 255 , 255 ) "
+		context.fillText(name, X/10, Y/10+parseInt(context.font.split(" ")[0].split("px")[0]));
+	}
+	
+	.qml {
+		var name = ""
+		for (var i = 0; i < Txt.length; i = i + 1) {
+			name = name + String.fromCharCode(Txt[i])
+		}
+		//console.log()
+		context.fillStyle = "rgb( 255 , 255 , 255 ) "
+		context.fillText(name, X/10, Y/10+parseInt(context.font.split(",5")[0].split(",-1,")[1]));
+	}
 }

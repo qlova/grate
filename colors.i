@@ -15,4 +15,6 @@ method set(Color) {
 	
 	.java MainActivity . paint . setColor ( MainActivity . rgb ( R.intValue() , G.intValue() , B.intValue(), 255 - A.intValue() ) ) ;
 
+	.javascript context.fillStyle = " rgba( "+R+" , "+G+" , "+B+" , "+(255-A.toJSNumber())+" ) "
+	.qml context.fillStyle = "rgba("+R+", "+G+", "+B+", "+(255-A.toJSNumber())+")"
 }

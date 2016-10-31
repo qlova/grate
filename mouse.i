@@ -4,6 +4,8 @@ type Mouse {
 	button
 }
 
+.qml var touch = null
+
 method new(Mouse) {
 	var X = 0
 	var Y = 0
@@ -23,6 +25,14 @@ method new(Mouse) {
 		Y = new Stack.Number(MainActivity.touchy*10);
 		if (MainActivity.touching) {
 			Button = new Stack.Number(1);
+		}
+	}
+	
+	.qml {
+		X = bigInt(Math.floor(touch.x)*10)
+		Y = bigInt(Math.floor(touch.y)*10)
+		if (touch.pressed) {
+			Button = bigInt.one
 		}
 	}
 	

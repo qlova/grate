@@ -9,13 +9,12 @@ import mouse
 .python import pygame.gfxdraw
 .python from pygame.locals import *
 
-function draw() {
 
-}
-
-function update() {
-
-}
+.qml var grate_left   = false
+.qml var grate_right  = false
+.qml var grate_up     = false
+.qml var grate_down   = false
+.qml var grate_action = false
 
 function left() n {
 	.java {
@@ -24,11 +23,23 @@ function left() n {
 			return;
 		}
 	}
+	.javascript {
+		if (grate_keys[37]) {
+			stack.push(bigInt.one)
+			return;
+		}
+	}
 	.python {
 		keys=pygame.key.get_pressed()
 		if keys[K_LEFT] or keys[K_a]:
 		\t stack.push(1)
 		\t return
+	}
+	.qml {
+		if (grate_left) {
+			stack.push(bigInt.one)
+			return
+		}
 	}
 	return false
 }
@@ -40,11 +51,23 @@ function right() n {
 			return;
 		}
 	}
+	.javascript {
+		if (grate_keys[39]) {
+			stack.push(bigInt.one)
+			return;
+		}
+	}
 	.python {
 		keys=pygame.key.get_pressed()
 		if keys[K_RIGHT] or keys[K_d]:
 		\t stack.push(1)
 		\t return
+	}
+	.qml {
+		if (grate_right) {
+			stack.push(bigInt.one)
+			return
+		}
 	}
 	return false
 }
@@ -56,11 +79,23 @@ function action() n {
 			return;
 		}
 	}
+	.javascript {
+		if (grate_keys[32]) {
+			stack.push(bigInt.one)
+			return;
+		}
+	}
 	.python {
 		keys=pygame.key.get_pressed()
 		if keys[K_SPACE]:
 		\t stack.push(1)
 		\t return
+	}
+	.qml {
+		if (grate_action) {
+			stack.push(bigInt.one)
+			return
+		}
 	}
 	return false
 }
@@ -72,11 +107,23 @@ function down() n {
 			return;
 		}
 	}
+	.javascript {
+		if (grate_keys[40]) {
+			stack.push(bigInt.one)
+			return;
+		}
+	}
 	.python {
 		keys=pygame.key.get_pressed()
 		if keys[K_DOWN] or keys[K_s]:
 		\t stack.push(1)
 		\t return
+	}
+	.qml {
+		if (grate_down) {
+			stack.push(bigInt.one)
+			return
+		}
 	}
 	return false
 }
@@ -88,11 +135,23 @@ function up() n {
 			return;
 		}
 	}
+	.javascript {
+		if (grate_keys[38]) {
+			stack.push(bigInt.one)
+			return;
+		}
+	}
 	.python {
 		keys=pygame.key.get_pressed()
 		if keys[K_UP] or keys[K_w]:
 		\t stack.push(1)
 		\t return
+	}
+	.qml {
+		if (grate_up) {
+			stack.push(bigInt.one)
+			return
+		}
 	}
 	return false
 }
@@ -106,6 +165,10 @@ function width() n {
 	
 	.lua n = bigint(love.graphics.getWidth()*10)
 	
+	.javascript n = bigInt(grate_width)
+	.qml n = bigInt(grate_width)
+	
+	
 	return n
 }
 
@@ -118,6 +181,9 @@ function height() n {
 	
 	.lua n = bigint(love.graphics.getHeight()*10)
 	
+	.javascript n = bigInt(grate_height)
+	.qml n = bigInt(grate_height)
+	
 	return n
 
 }
@@ -129,12 +195,15 @@ function delta() n {
 	.python n = int(grate_dt*10)
 	
 	.java n = new Stack.Number(MainActivity.delta());
+	.javascript n = bigInt(grate_dt*10)
+	.qml n = bigInt(grate_dt)
 	
 	return n
 }
 
 .lua {
 	local game;
+	local stack = NewStack();
 
 	function love.load()
 		game = Game(stack)
@@ -156,7 +225,61 @@ function clear() {
    	.python pygame.display.get_surface().fill(grate_color)
 }
 
+.javascript context = null
+.javascript grate_width  = 0
+.javascript grate_height = 0
+.javascript grate_dt = 0
+.javascript grate_keys = {}
+
+.qml var context = null
+.qml var grate_width = 0
+.qml var grate_height = 0
+.qml var grate_dt = 0
+
 function grate() {
+
+	.javascript {
+		canvas = document.createElement("canvas");
+		canvas.id     = "Game";
+		canvas.width  = window.innerWidth;
+		canvas.height = window.innerHeight;
+		context = canvas.getContext("2d");
+		document.body.appendChild(canvas);
+		grate_height = canvas.height*10
+		grate_width  = canvas.width*10
+
+		window.onkeydown=function(e){
+			 e = e
+			 grate_keys[e.keyCode] = true;
+		}
+
+		window.onkeyup=function(e){
+			 e = e
+			 delete grate_keys[e.keyCode];
+		}
+		
+		Game(stack)
+		new_m_Game(stack)
+		game = stack.grab()
+		
+		var prevTime = curTime;
+		var curTime = (new Date()).getTime();
+		
+		var FPS = 60
+		setInterval(function() {
+			//context.fillStyle = "rgb( 0 , 0 , 0 ) "
+			context.fillRect(0, 0, canvas.width, canvas.height);
+			
+			prevTime = curTime;
+			curTime = (new Date()).getTime();
+			grate_dt = curTime - prevTime;
+			
+			stack.share(game)
+			update_m_Game(stack)
+			stack.share(game)
+			draw_m_Game(stack)
+		}, 1000/FPS)
+	}
 
 	.python {
 		global grate_dt

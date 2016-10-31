@@ -1,9 +1,12 @@
+.javascript grate_Image = Image
+
 type Image {
 	"" path
 	x, y
 }
 
 .python grate_images = {}
+.javascript grate_images = {}
 
 method draw(Image) {
 	var p = path
@@ -26,6 +29,20 @@ method draw(Image) {
 		) ;
 		MainActivity.images.get(p.String()).draw(MainActivity.canvas);
 	}
+	
+	.javascript {
+		var img = grate_images[p]
+		context.drawImage(img, X/10-img.width/2, Y/10-img.height/2)
+	}
+	
+	.qml {
+		var name = ""
+		for (var i = 0; i < p.length; i = i + 1) {
+			name = name + String.fromCharCode(p[i])
+		}
+		var img = context.createImageData("assets/"+name)
+		context.drawImage("assets/"+name, X/10-img.width/2, Y/10-img.height/2)
+	}
 }
 
 method load(Image) "" {
@@ -39,6 +56,23 @@ method load(Image) "" {
 	}
 	
 	.java MainActivity.loadImage(p.String());
+	
+	.javascript {
+		var name = ""
+		for (var i = 0; i < p.length; i = i + 1) {
+			name = name + String.fromCharCode(p[i])
+		}
+		grate_images[p] = new grate_Image();
+		grate_images[p].src = "../data/"+name
+	}
+	
+	.qml {
+		var name = ""
+		for (var i = 0; i < p.length; i = i + 1) {
+			name = name + String.fromCharCode(p[i])
+		}
+		loadImage("assets/"+name)
+	}
 
 	return ""
 }
