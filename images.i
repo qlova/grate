@@ -8,6 +8,8 @@ type Image {
 .python grate_images = {}
 .javascript grate_images = {}
 
+.go var op ebiten.DrawImageOptions
+
 method draw(Image) {
 	var p = path
 	var X = x
@@ -16,6 +18,15 @@ method draw(Image) {
 		img = grate_images[str(p)]
 		r = img.get_rect()
 		pygame.display.get_surface().blit(img, (X/10-r.w/2, Y/10-r.h/2))
+	}
+	
+	.go {
+		var img = GrateImages[p.String()]
+		var w, h = img.Size()
+		op.GeoM.Reset()
+		op.GeoM.Translate(float64(w)/2, float64(h)/2)
+		op.GeoM.Translate(float64(X.ToInt()/10), float64(Y.ToInt()/10))
+		Screen.DrawImage(img, &op)
 	}
 	
 	.java {
@@ -45,6 +56,8 @@ method draw(Image) {
 	}
 }
 
+.go var GrateImages = make(map[string]*ebiten.Image)
+
 method load(Image) "" {
 	var p = path
 	.python {
@@ -53,6 +66,16 @@ method load(Image) "" {
 			\t filename = filename + chr(p[i])
 		grate_images[str(p)] = pygame.image.load("data/"+filename)
 		grate_images[str(p)].convert()
+	}
+	
+	.go {
+		var ps = p.String()
+		var img, _, err = ebitenutil.NewImageFromFile(ps, ebiten.FilterNearest)
+		if err == nil {
+			GrateImages[ps] = img
+		} else {
+			stack.ERROR = NewNumber(1)
+		}
 	}
 	
 	.java MainActivity.loadImage(p.String());

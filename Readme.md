@@ -1,11 +1,12 @@
-#Grate Engine
+# Grate Engine
 Grate engine is a game engine made for the "I" programming [language](http://github.com/Qlova/ilang).
 
 ## Supported targets:
-**Pygame** (Windows/Linux/Mac)
-**HTML5** (Web)
-**Android**
-**QML/QT** (Ubuntu Touch)
+**Pygame** (Windows/Linux/Mac)  
+**Ebiten** (Windows/Linux/Mac/Web/Android/IOS)  
+**HTML5** (Web)  
+**Android**  
+**QML/QT**  
 
 Development status:  
 **EXPERIMENTAL STAGE**
@@ -18,7 +19,7 @@ The only features the game currently has are:
 
 Please wait until development matures!
 
-##Biting the bullet:
+## Biting the bullet:
 If you still want to try this out, you will need Python3, Pygame, The I programming language and UCT.
 
 ### Android
