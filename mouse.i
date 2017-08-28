@@ -6,6 +6,24 @@ type Mouse {
 
 .qml var touch = null
 
+.javascript {
+	var cursor_X;
+	var cursor_Y;
+	var mouse_Down = 0;
+	
+	document.onmousemove = function(e){
+		cursor_X = e.pageX;
+		cursor_Y = e.pageY;
+	}
+	document.body.onmousedown = function() {
+	  mouse_Down = 1;
+	}
+	document.body.onmouseup = function() {
+	  mouse_Down = 0;
+	}
+}
+
+
 method new(Mouse) {
 	var X = 0
 	var Y = 0
@@ -18,6 +36,15 @@ method new(Mouse) {
 		a,b,c = pygame.mouse.get_pressed()
 		if a: 
 			\t Button = 1
+	}
+	
+	.javascript {
+		X = bigInt(cursor_X * 10);
+		Y = bigInt(cursor_Y * 10);
+		
+		if (mouse_Down > 0) {
+			Button = bigInt.one;
+		}
 	}
 	
 	.java {
