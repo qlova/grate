@@ -86,7 +86,7 @@ method load(Image) "" {
 			name = name + String.fromCharCode(p[i])
 		}
 		grate_images[p] = new grate_Image();
-		grate_images[p].src = "../data/"+name
+		grate_images[p].src = "data/"+name
 	}
 	
 	.qml {
