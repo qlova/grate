@@ -1,3 +1,8 @@
+.go import "github.com/hajimehoshi/ebiten"
+.go import "github.com/hajimehoshi/ebiten/ebitenutil"
+.go import "github.com/hajimehoshi/ebiten/examples/common"
+.go import "image/color"
+
 import shapes
 import images
 import text
@@ -9,7 +14,6 @@ import mouse
 .python import math
 .python import pygame.gfxdraw
 .python from pygame.locals import *
-
 
 .qml var grate_left   = false
 .qml var grate_right  = false
@@ -42,6 +46,12 @@ function left() n {
 			return
 		}
 	}
+	.go {
+		if (ebiten.IsKeyPressed(ebiten.KeyLeft)) {
+			stack.Push(NewNumber(1))
+			return
+		}
+	}
 	return false
 }
 
@@ -67,6 +77,12 @@ function right() n {
 	.qml {
 		if (grate_right) {
 			stack.push(bigInt.one)
+			return
+		}
+	}
+	.go {
+		if (ebiten.IsKeyPressed(ebiten.KeyRight)) {
+			stack.Push(NewNumber(1))
 			return
 		}
 	}
@@ -98,6 +114,12 @@ function action() n {
 			return
 		}
 	}
+	.go {
+		if (ebiten.IsKeyPressed(ebiten.KeySpace)) {
+			stack.Push(NewNumber(1))
+			return
+		}
+	}
 	return false
 }
 
@@ -123,6 +145,12 @@ function down() n {
 	.qml {
 		if (grate_down) {
 			stack.push(bigInt.one)
+			return
+		}
+	}
+	.go {
+		if (ebiten.IsKeyPressed(ebiten.KeyDown)) {
+			stack.Push(NewNumber(1))
 			return
 		}
 	}
@@ -154,6 +182,12 @@ function up() n {
 			return
 		}
 	}
+	.go {
+		if (ebiten.IsKeyPressed(ebiten.KeyUp)) {
+			stack.Push(NewNumber(1))
+			return
+		}
+	}
 	return false
 }
 
@@ -169,6 +203,10 @@ function width() n {
 	.javascript n = bigInt(grate_width)
 	.qml n = bigInt(grate_width)
 	
+	.go {
+		var w, _ = Screen.Size()
+		n = NewNumber(w)
+	}
 	
 	return n
 }
@@ -185,6 +223,11 @@ function height() n {
 	.javascript n = bigInt(grate_height)
 	.qml n = bigInt(grate_height)
 	
+	.go {
+		var _, h = Screen.Size()
+		n = NewNumber(h)
+	}
+	
 	return n
 
 }
@@ -198,6 +241,8 @@ function delta() n {
 	.java n = new Stack.Number(MainActivity.delta());
 	.javascript n = bigInt(grate_dt*10)
 	.qml n = bigInt(grate_dt)
+	
+	.go n = NewNumber(166)
 	
 	return n
 }
@@ -237,7 +282,30 @@ function clear() {
 .qml var grate_height = 0
 .qml var grate_dt = 0
 
+.go var Screen *ebiten.Image
+
 function grate() {
+
+	.go {
+	
+		Game(stack)
+		new_m_Game(stack)
+		var game = stack.Grab()
+	
+		ebiten.Run(func (screen *ebiten.Image) error {
+			Screen = screen
+			
+			stack.Share(game)
+			update_m_Game(stack)
+			if ebiten.IsRunningSlowly() {
+				return nil
+			}
+			stack.Share(game)
+			draw_m_Game(stack)
+			
+			return nil
+		}, 800, 600, 1, "Game")
+	}
 
 	.javascript {
 		canvas = document.createElement("canvas");

@@ -15,12 +15,22 @@ def rot_center(image, rect, angle):
   \t  rot_rect = rot_image.get_rect(center=rect.center)
   \t  return rot_image,rot_rect
 }
+.go var op ebiten.DrawImageOptions
 
 method draw(Image) {
 	.python {
 		img = grate_images[str(path)]
 		img, s = rot_center(img, img.get_rect(), r/10)
 		pygame.display.get_surface().blit(img, (x/10-s.w/2, y/10-s.h/2))
+	}
+	
+	.go {
+		var img = GrateImages[path.String()]
+		var w, h = img.Size()
+		op.GeoM.Reset()
+		op.GeoM.Translate(float64(w)/2, float64(h)/2)
+		op.GeoM.Translate(float64(x.ToInt()/10), float64(y.ToInt()/10))
+		Screen.DrawImage(img, &op)
 	}
 	
 	.java {
@@ -50,6 +60,8 @@ method draw(Image) {
 	}
 }
 
+.go var GrateImages = make(map[string]*ebiten.Image)
+
 method load(Image) "" {
 	.python {
 		filename = ""
@@ -60,6 +72,15 @@ method load(Image) "" {
 	}
 	
 	.java MainActivity.loadImage(path.String());
+	.go {
+		var ps = path.String()
+		var img, _, err = ebitenutil.NewImageFromFile(ps, ebiten.FilterNearest)
+		if err == nil {
+			GrateImages[ps] = img
+		} else {
+			stack.ERROR = NewNumber(1)
+		}
+	}
 	
 	.javascript {
 		var name = ""
@@ -67,7 +88,7 @@ method load(Image) "" {
 			name = name + String.fromCharCode(path[i])
 		}
 		grate_images[path] = new grate_Image();
-		grate_images[path].src = "../data/"+name
+		grate_images[path].src = "data/"+name
 	}
 	
 	.qml {

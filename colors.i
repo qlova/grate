@@ -16,6 +16,16 @@ method set(Color) {
 	var B = b
 	var A = a	
 	
+	.go {
+		op.ColorM.Reset()
+		op.ColorM.Translate(
+			-float64(255-R.ToInt())*(1.0/255), 
+			-float64(255-G.ToInt())*(1.0/255), 
+			-float64(255-B.ToInt())*(1.0/255), 
+			-float64(A.ToInt())*(1.0/255),
+		)
+	}
+	
 	.python grate_color = (R, G, B, 255-A)
 	
 	.java MainActivity . paint . setColor ( MainActivity . rgb ( R.intValue() , G.intValue() , B.intValue(), 255 - A.intValue() ) ) ;
