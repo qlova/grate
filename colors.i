@@ -4,6 +4,11 @@ type Color {
 	r, g, b, a
 }
 
+function fill(r, g, b, a) {
+	.python global grate_color
+	.python grate_color = (r, g, b, 255-a)
+}
+
 method set(Color) {
 	.python global grate_color
 	var R = r

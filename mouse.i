@@ -6,7 +6,7 @@ type Mouse {
 
 .qml var touch = null
 
-method new(Mouse) {
+method update(Mouse) {
 	var X = 0
 	var Y = 0
 	var Button = 0
@@ -39,5 +39,8 @@ method new(Mouse) {
 	x = X
 	y = Y
 	button = Button
-	
+}
+
+method new(Mouse) {
+	update(Mouse)
 }

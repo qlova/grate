@@ -6,6 +6,7 @@ import mouse
 
 .python import pygame
 .python import sys
+.python import math
 .python import pygame.gfxdraw
 .python from pygame.locals import *
 
@@ -292,6 +293,7 @@ function grate() {
 		
 		grate_font = pygame.font.SysFont("monospace", 20)
 		
+		Game(stack)
 		new_m_Game(stack)
 		game = stack.grab()
 		
