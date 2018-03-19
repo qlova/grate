@@ -5,7 +5,19 @@ Check the specific subfolders for in-depth documentation.
 
 ## Inputs
 * **Keyboard**  
-	-- Buttons  
+
+```
+	if key.a()
+		//The 'A' key is down.  
+	end
+	
+	if key.shift()
+		//The 'shift' key is down.
+	end
+
+	var pressed = keys.pressed() //List of key strings that have been pressed this frame.
+```
+
 * **Mouse**  
 	-- Primary Buttons  
 	-- Scoll Wheel & Scroll Wheel Buttons  

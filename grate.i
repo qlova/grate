@@ -8,6 +8,12 @@ import images
 import text
 import colors
 import mouse
+import keys
+import keyboard
+
+plugin Game {
+	{Keyboard} keys
+}
 
 .python import pygame
 .python import sys
