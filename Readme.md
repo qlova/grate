@@ -1,5 +1,5 @@
 # Grate Engine
-Grate engine is a game engine made for the "I" programming [language](http://github.com/Qlova/ilang).
+An engine for creating collaborative creative environments.
 
 ## Supported targets:
 **Pygame** (Windows/Linux/Mac)  
@@ -29,9 +29,6 @@ android/MainActivity.java
 ```
 Just copy this in, run a build of your game with "it build -java" and then paste Stack.java and Game.java in your Android studio project.  
 For images to work you need to put them in the android "assets" directory.
-
-### HTML5
-Add a main.html to your "it build -js" output which includes both scripts in the body of the HTML, stack.js needs to before your game.
 
 ### QML/QT
 Open QT creator (Ubuntu SDK IDE), create a new qml application. Replace Main.qml with:
