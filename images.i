@@ -10,7 +10,6 @@ type Image {
 
 .python {
 def rot_center(image, rect, angle):
-  \t  """rotate an image while keeping its center"""
   \t  rot_image = pygame.transform.rotate(image, angle)
   \t  rot_rect = rot_image.get_rect(center=rect.center)
   \t  return rot_image,rot_rect
