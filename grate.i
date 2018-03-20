@@ -318,8 +318,10 @@ function grate() {
 		canvas.id     = "Game";
 		canvas.width  = window.innerWidth;
 		canvas.height = window.innerHeight;
+		
 		context = canvas.getContext("2d");
 		document.body.appendChild(canvas);
+		
 		grate_height = canvas.height*10
 		grate_width  = canvas.width*10
 
@@ -351,9 +353,17 @@ function grate() {
 			
 			stack.share(game)
 			update_m_Game(stack)
+			
+			scroll_X = 0
+			scroll_Y = 0
+		}, 1000/FPS)
+		
+		var draw = function() {
+			requestAnimationFrame(draw) 
 			stack.share(game)
 			draw_m_Game(stack)
-		}, 1000/FPS)
+		}
+		draw()
 	}
 
 	.python {

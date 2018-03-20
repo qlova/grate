@@ -19,9 +19,17 @@ Check the specific subfolders for in-depth documentation.
 ```
 
 * **Mouse**  
-	-- Primary Buttons  
-	-- Scoll Wheel & Scroll Wheel Buttons  
-	-- Any Additional Buttons  
+
+```
+	if mouse.down(1)
+		//The left mouse button is down. 
+	end
+	
+	//Get the location of the mouse.
+	var x = mouse.x() 
+	var y = mouse.y()
+```
+
 * **Gamepads**  
 	-- Buttons  
 	-- Axises  

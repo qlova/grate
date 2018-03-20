@@ -1,29 +1,92 @@
 
-type Mouse {
-	x,y
-	button
+type MouseWheel {}
+
+method MouseWheel.x() {
+	.javascript {
+		stack.push(bigInt(scroll_X));
+		return;
+	}
+	
+	return 0
+}
+
+method MouseWheel.y() {
+	.javascript {
+		stack.push(bigInt(scroll_Y));
+		return;
+	}
+	
+	return 0
+}
+
+type mouse { 
+	{MouseWheel} wheel 
+}
+
+method mouse.x() {
+	.javascript {
+		stack.push(bigInt(cursor_X*10));
+		return;
+	}
+	
+	return 0
+}
+
+method mouse.y() {
+	.javascript {
+		stack.push(bigInt(cursor_Y*10));
+		return;
+	}
+	
+	return 0
+}
+
+method mouse.down(n) {
+	.javascript {
+		if (grate_mouse[n-1]) {
+			stack.push(bigInt.one);
+			return;
+		}
+	}
+	
+	return 0
 }
 
 .qml var touch = null
 
 .javascript {
-	var cursor_X;
-	var cursor_Y;
-	var mouse_Down = 0;
+	var cursor_X = 0;
+	var cursor_Y = 0;
+	var scroll_X = 0;
+	var scroll_Y = 0;
+	var grate_mouse = {};
 	
 	document.onmousemove = function(e){
 		cursor_X = e.pageX;
 		cursor_Y = e.pageY;
 	}
-	document.body.onmousedown = function() {
-	  mouse_Down = 1;
+	document.body.onmousedown = function(e) {
+		e = e
+	  grate_mouse[e.button] = 1;
 	}
-	document.body.onmouseup = function() {
-	  mouse_Down = 0;
+	document.body.onmouseup = function(e) {
+	e = e
+	  delete grate_mouse[e.button];
 	}
+	document.body.oncontextmenu = function(e) {
+		return false
+	}
+	
+	var grate_mouse_wheel = function(e) {
+		scroll_X = e.wheelDeltaX;
+		scroll_Y = e.wheelDeltaY;
+	}
+	
+	document.addEventListener('DOMMouseScroll', grate_mouse_wheel, false);
+	document.onmousewheel = grate_mouse_wheel;
 }
 
-method update(Mouse) {
+/*method update(Mouse) {
 	var X = 0
 	var Y = 0
 	var Button = 0
@@ -35,15 +98,6 @@ method update(Mouse) {
 		a,b,c = pygame.mouse.get_pressed()
 		if a: 
 			\t Button = 1
-	}
-	
-	.javascript {
-		X = bigInt(cursor_X * 10);
-		Y = bigInt(cursor_Y * 10);
-		
-		if (mouse_Down > 0) {
-			Button = bigInt.one;
-		}
 	}
 	
 	.java {
@@ -65,8 +119,4 @@ method update(Mouse) {
 	x = X
 	y = Y
 	button = Button
-}
-
-method new(Mouse) {
-	update(Mouse)
-}
+}*/
