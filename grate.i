@@ -12,7 +12,7 @@ import mouse
 import keys
 import keyboard
 
-plugin Game {
+plugin Graphics {
 	{Keyboard} keys
 }
 
@@ -259,7 +259,7 @@ function delta() n {
 	local stack = NewStack();
 
 	function love.load()
-		game = Game(stack)
+		game = Graphics(stack)
 	end
 	
 	function love.update()
@@ -295,28 +295,28 @@ function grate() {
 
 	.go {
 	
-		Game(stack)
-		new_m_Game(stack)
+		Graphics(stack)
+		new_m_Graphics(stack)
 		var game = stack.Grab()
 	
 		ebiten.Run(func (screen *ebiten.Image) error {
 			Screen = screen
 			
 			stack.Share(game)
-			update_m_Game(stack)
+			update_m_Graphics(stack)
 			if ebiten.IsRunningSlowly() {
 				return nil
 			}
 			stack.Share(game)
-			draw_m_Game(stack)
+			draw_m_Graphics(stack)
 			
 			return nil
-		}, 800, 600, 1, "Game")
+		}, 800, 600, 1, "Graphics")
 	}
 
 	.javascript {
 		canvas = document.createElement("canvas");
-		canvas.id     = "Game";
+		canvas.id     = "Graphics";
 		canvas.width  = window.innerWidth;
 		canvas.height = window.innerHeight;
 		
@@ -336,8 +336,8 @@ function grate() {
 			 delete grate_keys[e.keyCode];
 		}
 		
-		Game(stack)
-		new_m_Game(stack)
+		Graphics(stack)
+		new_m_Graphics(stack)
 		game = stack.grab()
 		
 		var prevTime = curTime;
@@ -350,7 +350,7 @@ function grate() {
 			grate_dt = curTime - prevTime;
 			
 			stack.share(game)
-			update_m_Game(stack)
+			update_m_Graphics(stack)
 			
 			scroll_X = 0
 			scroll_Y = 0
@@ -361,7 +361,7 @@ function grate() {
 			context.fillRect(0, 0, canvas.width, canvas.height);
 			
 			stack.share(game)
-			draw_m_Game(stack)
+			draw_m_Graphics(stack)
 		}
 		draw()
 	}
@@ -373,12 +373,12 @@ function grate() {
 		pygame.init()
 		pygame.font.init()
 		windowSurface = pygame.display.set_mode((800, 600), 0, 32)
-		pygame.display.set_caption("Grate Game")
+		pygame.display.set_caption("Grate Graphics")
 		
 		grate_font = pygame.font.SysFont("monospace", 20)
 		
-		Game(stack)
-		new_m_Game(stack)
+		Graphics(stack)
+		new_m_Graphics(stack)
 		game = stack.grab()
 		
 		clock = pygame.time.Clock()
@@ -387,9 +387,9 @@ function grate() {
 		while True:
 			\t pygame.display.get_surface().fill(grate_color)
 			\t stack.share(game)
-			\t update_m_Game(stack)
+			\t update_m_Graphics(stack)
 			\t stack.share(game)
-			\t draw_m_Game(stack)
+			\t draw_m_Graphics(stack)
 			\t pygame.display.update()
 			\t grate_dt = clock.tick(60)
 		
