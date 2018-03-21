@@ -82,7 +82,7 @@ method mouse.down(n) {
 		scroll_Y = e.wheelDeltaY;
 	}
 	
-	document.addEventListener('DOMMouseScroll', grate_mouse_wheel, false);
+	document.addEventListener("DOMMouseScroll", grate_mouse_wheel, false);
 	document.onmousewheel = grate_mouse_wheel;
 }
 
