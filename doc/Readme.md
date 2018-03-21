@@ -44,20 +44,36 @@ Check the specific subfolders for in-depth documentation.
 	
 ## Outputs
 * **Shapes** (2D)  
-	-- Rectangles  
-	-- Squares  
-	-- Circles  
-	-- Ovals  
-	-- Triangles  
-	-- Polygons  
+
+```
+	set.color(r, g, b)
+	set.opacity(a)
+	set.scale(w, h)
+	set.offset(x, y)
+	set.angle(r)
+
+	circle(x, y, r)
+	rectangle(x, y, w, h)
+	oval(x, y, w, h)
+	square(x, y, r)
+	triangle(x, y, w, h, t)
+```
 
 * **Images**  
-	-- Importing  
-	-- Scaling/Stretching  
-	-- Rotation  
-	-- Tinting  
-	-- Opacity  
-	-- Drawing  
+
+```
+	//Images are loaded from the data directory.
+	var test = image.load("test.png")
+	
+	set.color(r, g, b)
+	set.opacity(a)
+	set.scale(w, h)
+	set.offset(x, y)
+	set.angle(r)
+	
+	image.draw(test, x, y)
+
+```
 
 * **Sound**  
 	-- Importing  

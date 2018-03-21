@@ -3,6 +3,7 @@
 .go import "github.com/hajimehoshi/ebiten/examples/common"
 .go import "image/color"
 
+import set
 import shapes
 import images
 import text
@@ -344,9 +345,6 @@ function grate() {
 		
 		var FPS = 60
 		setInterval(function() {
-			//context.fillStyle = "rgb( 0 , 0 , 0 ) "
-			context.fillRect(0, 0, canvas.width, canvas.height);
-			
 			prevTime = curTime;
 			curTime = (new Date()).getTime();
 			grate_dt = curTime - prevTime;
@@ -360,6 +358,8 @@ function grate() {
 		
 		var draw = function() {
 			requestAnimationFrame(draw) 
+			context.fillRect(0, 0, canvas.width, canvas.height);
+			
 			stack.share(game)
 			draw_m_Game(stack)
 		}

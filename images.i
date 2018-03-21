@@ -1,6 +1,46 @@
-.javascript grate_Image = Image
+.javascript {
+	grate_Image = Image
+	grate_images = [new grate_Image()]
+}
 
-type Image {
+type image {}
+
+method image.load(""path) {
+	
+	.javascript {
+		var name = ""
+		for (var i = 0; i < path.length; i = i + 1) {
+			name = name + String.fromCharCode(path[i])
+		}
+		grate_images.push(new grate_Image());
+		grate_images[grate_images.length-1].src = "data/"+name
+		
+		stack.push(bigInt(grate_images.length-1));
+		return;
+	}
+	
+	return 0
+}
+
+method image.draw(pointer, x, y) {
+	.javascript {
+		var img = grate_images[pointer]
+		
+		var x = x.toJSNumber()/10-img.width/2
+		var y = y.toJSNumber()/10-img.height/2
+		
+		context.save()
+		context.translate(x, y)
+		context.rotate(setting_angle)
+		context.translate(-x, -y)
+		context.scale(setting_scalex, setting_scaley)
+		
+		context.drawImage(img, x, y)
+		context.restore()
+	}
+}
+
+/*type Image {
 	"" path
 	x, y, r
 }
@@ -44,11 +84,6 @@ method draw(Image) {
 		MainActivity.images.get(path.String()).draw(MainActivity.canvas);
 	}
 	
-	.javascript {
-		var img = grate_images[path]
-		context.drawImage(img, x/10-img.width/2, y/10-img.height/2)
-	}
-	
 	.qml {
 		var name = ""
 		for (var i = 0; i < path.length; i = i + 1) {
@@ -81,15 +116,6 @@ method load(Image) "" {
 		}
 	}
 	
-	.javascript {
-		var name = ""
-		for (var i = 0; i < path.length; i = i + 1) {
-			name = name + String.fromCharCode(path[i])
-		}
-		grate_images[path] = new grate_Image();
-		grate_images[path].src = "data/"+name
-	}
-	
 	.qml {
 		var name = ""
 		for (var i = 0; i < path.length; i = i + 1) {
@@ -99,4 +125,4 @@ method load(Image) "" {
 	}
 
 	return ""
-}
+}*/
