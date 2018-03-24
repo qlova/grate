@@ -1,12 +1,23 @@
 .python {
 	mouse_pos_x = 0
 	mouse_pos_y = 0
+	mouse_buttons = 0
 	def on_mouse_motion(x, y, dx, dy):
 		\t global mouse_pos_x
 		\t global mouse_pos_y
+		\t global mouse_buttons
 		\t mouse_pos_x = x
 		\t mouse_pos_y = y
+		\t mouse_buttons = 0
+	def on_mouse_drag(x, y, dx, dy, buttons, m):
+		\t global mouse_pos_x
+		\t global mouse_pos_y
+		\t global mouse_buttons
+		\t mouse_pos_x = x
+		\t mouse_pos_y = y
+		\t mouse_buttons = buttons
 	window.on_mouse_motion = on_mouse_motion
+	window.on_mouse_drag = on_mouse_drag
 }
 
 
@@ -68,6 +79,12 @@ method mouse.down(n) {
 			stack.push(bigInt.one);
 			return;
 		}
+	}
+	
+	.python{
+		if mouse_buttons & n:
+			\t stack.push(1)
+			\t return 
 	}
 	
 	return 0
