@@ -3,6 +3,10 @@
 	grate_images = [new grate_Image()]
 }
 
+.python {
+	grate_images = [None]
+}
+
 type image {}
 
 method image.load(""path) {
@@ -17,6 +21,15 @@ method image.load(""path) {
 		
 		stack.push(bigInt(grate_images.length-1));
 		return;
+	}
+	
+	.python {
+		t = ""
+		for i in range(0, len(path)):
+			\t t = t + chr(path[i])
+		grate_images.append(pyglet.sprite.Sprite(pyglet.image.load("data/"+t), x=0, y=0))
+		stack.push(len(grate_images)-1)
+		return
 	}
 	
 	return 0
@@ -37,6 +50,15 @@ method image.draw(pointer, x, y) {
 		
 		context.drawImage(img, x, y)
 		context.restore()
+	}
+	
+	.python {
+		img = grate_images[pointer]
+		glPushMatrix()
+		glTranslatef(x-img.width*10/2, y+img.height*10/2, 0)
+		glScalef(10, -10, 10)
+		img.draw()
+		glPopMatrix()
 	}
 }
 

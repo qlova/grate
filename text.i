@@ -1,6 +1,47 @@
-.python grate_font = None
+.python {
+	grate_font = None
+	grate_label = pyglet.text.Label("", font_name="Times New Roman",font_size=360,x=10, y=10)
+}
 
-type Text {
+
+
+function display(""txt, x, y) {
+	.javascript {
+	
+		var x = x.toJSNumber()/10
+		var y = y.toJSNumber()/10
+		
+		context.save()
+		context.translate(x, y)
+		context.rotate(setting_angle)
+		context.translate(-x, -y)
+		
+		console.log(setting_scalex, setting_scaley)
+		context.scale(setting_scalex, setting_scaley)
+	
+		var name = ""
+		for (var i = 0; i < txt.length; i = i + 1) {
+			name = name + String.fromCharCode(txt[i])
+		}
+		context.fillText(name, x, y+parseInt(context.font.split(" ")[0].split("px")[0]));
+		
+		context.restore()
+	}
+	
+	.python {
+		glPushMatrix()
+		glScalef(1.0, -1.0, 1.0)
+		glTranslatef(0, -window.height, 1.0)
+		t = ""
+		for i in range(0, len(txt)):
+			\t t = t + chr(txt[i])
+		grate_label.text = t
+		grate_label.draw()
+		glPopMatrix()
+	}
+}
+
+/*type Text {
 	""txt
 	x, y
 }
@@ -43,14 +84,6 @@ method draw(Text) {
 	
 	.java MainActivity.canvas.drawText(Txt.String(), X.intValue()/10, Y.intValue()/10+MainActivity.paint.getTextSize(), MainActivity.paint);
 	
-	.javascript {
-		var name = ""
-		for (var i = 0; i < Txt.length; i = i + 1) {
-			name = name + String.fromCharCode(Txt[i])
-		}
-		context.fillText(name, X/10, Y/10+parseInt(context.font.split(" ")[0].split("px")[0]));
-	}
-	
 	.qml {
 		var name = ""
 		for (var i = 0; i < Txt.length; i = i + 1) {
@@ -60,4 +93,4 @@ method draw(Text) {
 		context.fillStyle = "rgb( 255 , 255 , 255 ) "
 		context.fillText(name, X/10, Y/10+parseInt(context.font.split(",5")[0].split(",-1,")[1]));
 	}
-}
+}*/

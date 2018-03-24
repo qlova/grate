@@ -31,9 +31,17 @@ Check the specific subfolders for in-depth documentation.
 ```
 
 * **Gamepads**  
-	-- Buttons  
-	-- Axises  
-	-- Touchpad? (PS4)  
+
+```
+	if gamepad(0).down(1)
+		//The first gamepad's second button is down.
+	end
+	
+	if gamepad(0).axis(0)
+		//The first gamepad's first axis, a value between 100 and -100.
+	end
+```
+
 * **Touchscreen**  
 	-- Singletouch  
 	-- Multitouch  

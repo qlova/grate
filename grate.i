@@ -3,6 +3,41 @@
 .go import "github.com/hajimehoshi/ebiten/examples/common"
 .go import "image/color"
 
+.python import pyglet
+.python import sys
+.python import math
+.python from pyglet.gl import *
+.python from pyglet.window import key
+
+.python {
+	game = None
+	window = pyglet.window.Window()
+	grate_keys = key.KeyStateHandler()
+	window.push_handlers(grate_keys)
+
+	@window.event
+	def on_draw():
+		\t glClearColor(0, 0, 0, 1)
+		\t glClear(GL_COLOR_BUFFER_BIT)
+		
+		\t glMatrixMode(GL_PROJECTION)
+		\t glLoadIdentity()
+		\t glOrtho(0.0, window.width, window.height, 1.0, -1.0, 1.0)
+		\t glMatrixMode(GL_MODELVIEW)
+		\t glLoadIdentity()
+		
+		\t glMatrixMode(GL_MODELVIEW)
+		\t glLoadIdentity()
+		\t glScalef(0.1, 0.1, 0.1)
+		
+		\t stack.share(game)
+		\t draw_m_Graphics(stack)
+		
+	def on_update(value):
+		\t stack.share(game)
+		\t update_m_Graphics(stack)
+}
+
 import set
 import shapes
 import images
@@ -11,16 +46,11 @@ import colors
 import mouse
 import keys
 import keyboard
+import gamepad
 
 plugin Graphics {
 	{Keyboard} keys
 }
-
-.python import pygame
-.python import sys
-.python import math
-.python import pygame.gfxdraw
-.python from pygame.locals import *
 
 .qml var grate_left   = false
 .qml var grate_right  = false
@@ -40,12 +70,6 @@ function left() n {
 			stack.push(bigInt.one)
 			return;
 		}
-	}
-	.python {
-		keys=pygame.key.get_pressed()
-		if keys[K_LEFT] or keys[K_a]:
-		\t stack.push(1)
-		\t return
 	}
 	.qml {
 		if (grate_left) {
@@ -75,12 +99,6 @@ function right() n {
 			return;
 		}
 	}
-	.python {
-		keys=pygame.key.get_pressed()
-		if keys[K_RIGHT] or keys[K_d]:
-		\t stack.push(1)
-		\t return
-	}
 	.qml {
 		if (grate_right) {
 			stack.push(bigInt.one)
@@ -108,12 +126,6 @@ function action() n {
 			stack.push(bigInt.one)
 			return;
 		}
-	}
-	.python {
-		keys=pygame.key.get_pressed()
-		if keys[K_SPACE]:
-		\t stack.push(1)
-		\t return
 	}
 	.qml {
 		if (grate_action) {
@@ -143,12 +155,6 @@ function down() n {
 			return;
 		}
 	}
-	.python {
-		keys=pygame.key.get_pressed()
-		if keys[K_DOWN] or keys[K_s]:
-		\t stack.push(1)
-		\t return
-	}
 	.qml {
 		if (grate_down) {
 			stack.push(bigInt.one)
@@ -177,12 +183,6 @@ function up() n {
 			return;
 		}
 	}
-	.python {
-		keys=pygame.key.get_pressed()
-		if keys[K_UP] or keys[K_w]:
-		\t stack.push(1)
-		\t return
-	}
 	.qml {
 		if (grate_up) {
 			stack.push(bigInt.one)
@@ -201,9 +201,9 @@ function up() n {
 function width() n {
 	var n = 0
 	
-	.python n = pygame.display.get_surface().get_width()*10
-	
 	.java n = new Stack.Number(MainActivity.canvas.getWidth()*10);
+	
+	.python n = window.width*10
 	
 	.lua n = bigint(love.graphics.getWidth()*10)
 	
@@ -221,11 +221,11 @@ function width() n {
 function height() n {
 	var n = 0
 	
-	.python n = pygame.display.get_surface().get_height()*10
-	
 	.java n = new Stack.Number(MainActivity.canvas.getHeight()*10);
 	
 	.lua n = bigint(love.graphics.getHeight()*10)
+	
+	.python n = window.height*10
 	
 	.javascript n = bigInt(grate_height)
 	.qml n = bigInt(grate_height)
@@ -241,9 +241,6 @@ function height() n {
 
 function delta() n {
 	var n = 0
-	
-	.python global grate_dt
-	.python n = int(grate_dt*10)
 	
 	.java n = new Stack.Number(MainActivity.delta());
 	.javascript n = bigInt(grate_dt*10)
@@ -270,8 +267,6 @@ function delta() n {
 		game_m_draw(stack)
 	end
 }
-
-.python grate_dt = 0
 
 function clear() {
 	.java MainActivity.canvas.drawPaint(MainActivity.paint);
@@ -342,7 +337,7 @@ function grate() {
 		
 		var prevTime = curTime;
 		var curTime = (new Date()).getTime();
-		
+
 		var FPS = 60
 		setInterval(function() {
 			prevTime = curTime;
@@ -357,45 +352,28 @@ function grate() {
 		}, 1000/FPS)
 		
 		var draw = function() {
-			requestAnimationFrame(draw) 
+			requestAnimationFrame(draw)
+			
+			context.fillStyle = " rgba(0, 0, 0, 255) "
 			context.fillRect(0, 0, canvas.width, canvas.height);
+			context.fillStyle = " rgba(255, 255, 255, 255) "
 			
 			stack.share(game)
 			draw_m_Graphics(stack)
+
 		}
 		draw()
 	}
 
 	.python {
-		global grate_dt
-		global grate_font
-		
-		pygame.init()
-		pygame.font.init()
-		windowSurface = pygame.display.set_mode((800, 600), 0, 32)
-		pygame.display.set_caption("Grate Graphics")
-		
-		grate_font = pygame.font.SysFont("monospace", 20)
+		global game
 		
 		Graphics(stack)
 		new_m_Graphics(stack)
 		game = stack.grab()
 		
-		clock = pygame.time.Clock()
+		pyglet.clock.schedule_interval(on_update, 1/60.0)
+		pyglet.app.run()
 		
-		# run the game loop
-		while True:
-			\t pygame.display.get_surface().fill(grate_color)
-			\t stack.share(game)
-			\t update_m_Graphics(stack)
-			\t stack.share(game)
-			\t draw_m_Graphics(stack)
-			\t pygame.display.update()
-			\t grate_dt = clock.tick(60)
-		
-			\t for event in pygame.event.get():
-				\t\t if event.type == QUIT:
-				    \t\t\t pygame.quit()
-				    \t\t\t sys.exit()
 	}
 }

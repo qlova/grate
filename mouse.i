@@ -1,3 +1,14 @@
+.python {
+	mouse_pos_x = 0
+	mouse_pos_y = 0
+	def on_mouse_motion(x, y, dx, dy):
+		\t global mouse_pos_x
+		\t global mouse_pos_y
+		\t mouse_pos_x = x
+		\t mouse_pos_y = y
+	window.on_mouse_motion = on_mouse_motion
+}
+
 
 type MouseWheel {}
 
@@ -29,6 +40,11 @@ method mouse.x() {
 		return;
 	}
 	
+	.python {
+		stack.push(mouse_pos_x*10)
+		return 
+	}
+	
 	return 0
 }
 
@@ -36,6 +52,11 @@ method mouse.y() {
 	.javascript {
 		stack.push(bigInt(cursor_Y*10));
 		return;
+	}
+	
+	.python {
+		stack.push((window.height-mouse_pos_y)*10)
+		return 
 	}
 	
 	return 0

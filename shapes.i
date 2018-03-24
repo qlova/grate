@@ -22,17 +22,56 @@ function triangle(x, y, w, h, v) {
 		var path = new Path2D();
 		path.moveTo(x-w/2, y-h/2);
 		path.lineTo(x+v, y+h/2);
-		path.lineTo(x+w/2, y+-h/2);
+		path.lineTo(x+w/2, y-h/2);
 		context.fill(path);
 		
 		context.restore()
+	}
+	
+	.python {
+		glPushMatrix()
+		glTranslatef(x, y, 0)
+		glRotatef(setting_angle, 0, 0, 1.0)
+		glTranslatef(-x, -y, 0)
+	
+		glBegin(GL_POLYGON)
+
+		#for the colour of the current object
+		glColor3f(grate_color[0], grate_color[1], grate_color[2])
+			
+		#list of vertices for object
+		glVertex2f(x-w/2, y-h/2)
+		glVertex2f(x+v, y+h/2)
+		glVertex2f(x+w/2, y-h/2)
+		
+
+		#complete drawing verticies
+		glEnd()
+		
+		glPopMatrix()
 	}
 	
 	set.defaults()
 }
 
 function oval(x, y, w, h) {
-	.python pygame.gfxdraw.filled_circle(pygame.display.get_surface(), int(x/10), int(y/10), int(r/10), grate_color)
+	.python {
+	
+		iterations = int(2*w*math.pi)
+		s = math.sin(2*math.pi / iterations)
+		c = math.cos(2*math.pi / iterations)
+
+		dx, dy = w, 0
+
+		glBegin(GL_TRIANGLE_FAN)
+		glColor3f(grate_color[0], grate_color[1], grate_color[2])
+		glVertex2f(x, y)
+		for i in range(iterations+1):
+			\t glVertex2f(x+dx, y+dy)
+			\t dx, dy = (dx*c - dy*s), (dy*c + dx*s)
+		glEnd()
+
+	}
 	
 	.javascript {
 	
@@ -77,6 +116,23 @@ function rectangle(x, y, w, h) {
 		context.restore()
 	}
 	
+	.python {
+		glBegin(GL_POLYGON)
+
+		#for the colour of the current object
+		glColor3f(grate_color[0], grate_color[1], grate_color[2])
+			
+		#list of vertices for object
+		glVertex2f(x-w/2, y+h/2)
+		glVertex2f(x-w/2, y-h/2)
+		glVertex2f(x+w/2, y-h/2)
+		glVertex2f(x+w/2, y+h/2)
+		
+
+		#complete drawing verticies
+		glEnd()
+	}
+	
 	set.defaults()
 }
 
@@ -85,30 +141,10 @@ function square(x, y, s) {
 }
 
 
-/*method draw(Circle) {
-	.python pygame.gfxdraw.filled_circle(pygame.display.get_surface(), int(x/10), int(y/10), int(r/10), grate_color)
-	
+/*method draw(Circle) {	
 	.java MainActivity.canvas.drawCircle(x.intValue()/10, y.intValue()/10, r.intValue()/10, MainActivity.paint);
 	
 	.lua love.graphics.circle("fill", tonumber(tostring(x))/10, tonumber(tostring(y))/10, tonumber(tostring(r))/10)
 	
-	.javascript context.beginPath(); context.arc(x/10, y/10, r/10, 0, 2*Math.PI, false); context.fill();
 	.qml context.beginPath(); context.arc(x/10, y/10, r/10, 0, 2*Math.PI, false); context.fill();
-}
-
-type Rectangle {
-	x, y, w, h, f
-}
-
-method draw(Rectangle) {
-	.python pygame.draw.rect(pygame.display.get_surface(), grate_color, (x/10,y/10,w/10,h/10), 0)
-}
-
-type Square {
-	x, y, s, f
-}
-
-method draw(Square) {
-	.python pygame.draw.rect(pygame.display.get_surface(), grate_color, (x/10,y/10,s/10,s/10), 0)
 }*/
-
