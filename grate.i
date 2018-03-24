@@ -11,7 +11,7 @@
 
 .python {
 	game = None
-	window = pyglet.window.Window()
+	window = pyglet.window.Window(fullscreen=True)
 	grate_keys = key.KeyStateHandler()
 	window.push_handlers(grate_keys)
 
@@ -34,6 +34,7 @@
 		\t draw_m_Graphics(stack)
 		
 	def on_update(value):
+		#Probably need to do some connection filtering here.
 		\t stack.share(game)
 		\t update_m_Graphics(stack)
 }
@@ -286,7 +287,44 @@ function clear() {
 
 .go var Screen *ebiten.Image
 
+.javascript grate_fullscreen = false
+
+function fullscreen() {
+	.python {
+		window.set_fullscreen(True)
+	}
+	
+	.javascript {
+		grate_fullscreen = true
+	}
+}
+
+function windowed() {
+	.python {
+		window.set_fullscreen(False)
+	}
+	.javascript {
+		grate_fullscreen = false
+	}
+}
+
+function size(w, h) {
+	.python {
+		window.width = int(w/10)
+		window.height = int(h/10)
+	}
+	
+	.javascript {
+		canvas.width  = w.toJSNumber()/10;
+		canvas.height = h.toJSNumber()/10;
+		grate_height = canvas.height*10;
+		grate_width  = canvas.width*10;
+	}
+}
+
 function grate() {
+	
+	//Need to globalise the connection.
 
 	.go {
 	
@@ -320,10 +358,27 @@ function grate() {
 		
 		grate_height = canvas.height*10
 		grate_width  = canvas.width*10
+		
+		function requestFullScreen(element) {
+			// Supports most browsers and their versions.
+			var requestMethod = element.requestFullScreen || element.webkitRequestFullScreen || element.mozRequestFullScreen || element.msRequestFullScreen;
+
+			if (requestMethod) { // Native full screen.
+				requestMethod.call(element);
+			} else if (typeof window.ActiveXObject !== "undefined") { // Older IE.
+				var wscript = new ActiveXObject("WScript.Shell");
+				if (wscript !== null) {
+					wscript.SendKeys("{F11}");
+				}
+			}
+		}
 
 		window.onkeydown=function(e){
 			 e = e
 			 grate_keys[e.keyCode] = true;
+			if (grate_fullscreen) {
+				requestFullScreen(canvas)
+			}
 		}
 
 		window.onkeyup=function(e){
@@ -353,6 +408,13 @@ function grate() {
 		
 		var draw = function() {
 			requestAnimationFrame(draw)
+			
+			if (grate_fullscreen) {
+				canvas.width  = window.innerWidth;
+				canvas.height = window.innerHeight;
+				grate_height = canvas.height*10
+				grate_width  = canvas.width*10
+			}
 			
 			context.fillStyle = " rgba(0, 0, 0, 255) "
 			context.fillRect(0, 0, canvas.width, canvas.height);

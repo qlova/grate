@@ -75,8 +75,8 @@ method set.color(r, g, b) {
 	.javascript {
 		var color = setting_color[setting_color.length-1];
 		color[0] = r;
-		color[1] = b;
-		color[2] = g;
+		color[1] = g;
+		color[2] = b;
 		context.fillStyle = " rgba( "+color[0]+" , "+color[1]+" , "+color[2]+" , "+color[3]+") ";
 	}
 	
