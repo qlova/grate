@@ -12,6 +12,7 @@ function triangle(x, y, w, h, v) {
 		var y = y.toJSNumber()/10
 		var w = w.toJSNumber()/10
 		var h = h.toJSNumber()/10
+		var v = v.toJSNumber()/10
 		
 		context.translate(x, y)
 		context.rotate(setting_angle)
@@ -20,9 +21,9 @@ function triangle(x, y, w, h, v) {
 		context.scale(setting_scalex, setting_scaley)
 	
 		var path = new Path2D();
-		path.moveTo(x-w/2, y-h/2);
-		path.lineTo(x+v, y+h/2);
-		path.lineTo(x+w/2, y-h/2);
+		path.moveTo(x-w/2, y+h/2);
+		path.lineTo(x+v, y-h/2);
+		path.lineTo(x+w/2, y+h/2);
 		context.fill(path);
 		
 		context.restore()
@@ -40,9 +41,9 @@ function triangle(x, y, w, h, v) {
 		glColor3f(grate_color[0], grate_color[1], grate_color[2])
 			
 		#list of vertices for object
-		glVertex2f(x-w/2, y-h/2)
-		glVertex2f(x+v, y+h/2)
-		glVertex2f(x+w/2, y-h/2)
+		glVertex2f(x-w/2, y+h/2)
+		glVertex2f(x+v, y-h/2)
+		glVertex2f(x+w/2, y+h/2)
 		
 
 		#complete drawing verticies
