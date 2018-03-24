@@ -35,10 +35,12 @@ function triangle(x, y, w, h, v) {
 		glRotatef(setting_angle, 0, 0, 1.0)
 		glTranslatef(-x, -y, 0)
 	
+		glEnable(GL_BLEND)
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
 		glBegin(GL_POLYGON)
 
 		#for the colour of the current object
-		glColor3f(grate_color[0], grate_color[1], grate_color[2])
+		glColor4f(grate_color[0], grate_color[1], grate_color[2], grate_color[3])
 			
 		#list of vertices for object
 		glVertex2f(x-w/2, y+h/2)
@@ -48,7 +50,7 @@ function triangle(x, y, w, h, v) {
 
 		#complete drawing verticies
 		glEnd()
-		
+		glDisable(GL_BLEND)
 		glPopMatrix()
 	}
 	
@@ -63,14 +65,17 @@ function oval(x, y, w, h) {
 		c = math.cos(2*math.pi / iterations)
 
 		dx, dy = w, 0
-
+		
+		glEnable(GL_BLEND)
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
 		glBegin(GL_TRIANGLE_FAN)
-		glColor3f(grate_color[0], grate_color[1], grate_color[2])
+		glColor4f(grate_color[0], grate_color[1], grate_color[2], grate_color[3])
 		glVertex2f(x, y)
 		for i in range(iterations+1):
 			\t glVertex2f(x+dx, y+dy)
 			\t dx, dy = (dx*c - dy*s), (dy*c + dx*s)
 		glEnd()
+		glDisable(GL_BLEND)
 
 	}
 	
@@ -118,10 +123,12 @@ function rectangle(x, y, w, h) {
 	}
 	
 	.python {
+		glEnable(GL_BLEND)
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
 		glBegin(GL_POLYGON)
 
 		#for the colour of the current object
-		glColor3f(grate_color[0], grate_color[1], grate_color[2])
+		glColor4f(grate_color[0], grate_color[1], grate_color[2], grate_color[3])
 			
 		#list of vertices for object
 		glVertex2f(x-w/2, y+h/2)
@@ -132,6 +139,7 @@ function rectangle(x, y, w, h) {
 
 		#complete drawing verticies
 		glEnd()
+		glDisable(GL_BLEND)
 	}
 	
 	set.defaults()

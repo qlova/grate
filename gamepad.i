@@ -56,7 +56,7 @@ method gamepad.axis(button) {
 		var gp = gamepad.toJSNumber()
 		
 		if (navigator.getGamepads()[gp]) {
-			stack.push(bigInt(navigator.getGamepads()[gp].axes[b]*100));
+			stack.push(bigInt(Math.floor(navigator.getGamepads()[gp].axes[b]*100)));
 			return;
 		}
 		
