@@ -1,4 +1,4 @@
-pattern CheckPressed(k, q, id) {
+macro CheckPressed(k, q, id) {
 	if key.k()
 		PressedNow()
 	else
