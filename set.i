@@ -2,7 +2,8 @@ type set {}
 
 .javascript {
 	setting_color = []
-	setting_color.push([255, 255, 255, 255])
+	setting_color.push([255, 255, 255, 1])
+	setting_color.push([255, 255, 255, 1])
 	setting_scalex = 1;
 	setting_scaley = 1;
 	setting_angle = 0;
@@ -15,12 +16,13 @@ type set {}
 	setting_offsetx = 0
 	setting_offsety = 0
 	setting_angle = 0
-	grate_color = (255, 255, 255, 255)
+	grate_color = (255, 255, 255, 1)
 }
 
 method set.defaults() {
 	.javascript {
-		setting_color[setting_color.length-1] = [255, 255, 255, 255]
+		var last = setting_color[setting_color.length-2]
+		setting_color[setting_color.length-1] = [last[0], last[1], last[2], 1]
 		setting_scalex = 1;
 		setting_scaley = 1;
 		setting_angle = 0;
@@ -41,11 +43,12 @@ method set.defaults() {
 method set.environment() {
 	.javascript {
 		context.save();
-		setting_color.push([]);
+		var last = setting_color[setting_color.length-2];
+		setting_color.push([last[0], last[1], last[2], last[3]]);
 		context.translate(setting_offsetx, setting_offsety);
 		context.rotate(setting_angle);
 		context.scale(setting_scalex, setting_scaley)
-		var color = setting_color[setting_color.length-1];
+		var color = setting_color[setting_color.length-2];
 		context.fillStyle = " rgba( "+color[0]+" , "+color[1]+" , "+color[2]+" , "+color[3]+") ";
 	}
 	
@@ -86,11 +89,16 @@ method set.color(r, g, b) {
 	}
 }
 
-method set.opacity(.2 a) {
+method set.opacity(a) {
 	.javascript {
 		var color = setting_color[setting_color.length-1];
-		color[3] = (a.toJSNumber())/100;
+		color[3] = (a.toJSNumber())*(1.0/255);
 		context.fillStyle = " rgba( "+color[0]+" , "+color[1]+" , "+color[2]+" , "+color[3]+") ";
+	}
+	
+	.python {
+		global grate_color
+		grate_color = (grate_color[0], grate_color[1], grate_color[2], a/255)
 	}
 }
 
