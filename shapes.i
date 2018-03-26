@@ -123,8 +123,6 @@ function rectangle(x, y, w, h) {
 	}
 	
 	.python {
-		glEnable(GL_BLEND)
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
 		glBegin(GL_POLYGON)
 
 		#for the colour of the current object
@@ -139,7 +137,6 @@ function rectangle(x, y, w, h) {
 
 		#complete drawing verticies
 		glEnd()
-		glDisable(GL_BLEND)
 	}
 	
 	set.defaults()
