@@ -14,6 +14,7 @@
 	window = pyglet.window.Window(fullscreen=True)
 	grate_keys = key.KeyStateHandler()
 	window.push_handlers(grate_keys)
+	fps_display = pyglet.window.FPSDisplay(window)
 
 	@window.event
 	def on_draw():
@@ -35,6 +36,8 @@
 		
 		\t stack.share(game)
 		\t draw_m_Graphics(stack)
+		
+		\t fps_display.draw()
 		
 	def on_update(value):
 		#Probably need to do some connection filtering here.
@@ -351,6 +354,8 @@ function grate() {
 	}
 
 	.javascript {
+		(function(){var script=document.createElement("script");script.onload=function(){var stats=new Stats();document.body.appendChild(stats.dom);requestAnimationFrame(function loop(){stats.update();requestAnimationFrame(loop)});};script.src="//rawgit.com/mrdoob/stats.js/master/build/stats.min.js";document.head.appendChild(script);})()
+		
 		canvas = document.createElement("canvas");
 		canvas.id     = "Graphics";
 		canvas.width  = window.innerWidth;
