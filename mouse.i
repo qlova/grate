@@ -52,7 +52,7 @@ method mouse.x() {
 	}
 	
 	.python {
-		stack.push(mouse_pos_x*10)
+		stack.push(int(mouse_pos_x*10))
 		return 
 	}
 	
@@ -66,7 +66,7 @@ method mouse.y() {
 	}
 	
 	.python {
-		stack.push((window.height-mouse_pos_y)*10)
+		stack.push(int((window.height-mouse_pos_y)*10))
 		return 
 	}
 	

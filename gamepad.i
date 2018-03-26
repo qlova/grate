@@ -67,16 +67,16 @@ method gamepad.axis(button) {
 			\t stack.push(0)
 			\t return
 		if button == 0:
-			\t stack.push(grate_gamepads[gamepad].x*100)
+			\t stack.push(int(grate_gamepads[gamepad].x*100))
 			\t return
 		elif button == 1:
-			\t stack.push(grate_gamepads[gamepad].y*100)
+			\t stack.push(int(grate_gamepads[gamepad].y*100))
 			\t return
 		elif button == 2:
-			\t stack.push(grate_gamepads[gamepad].z*100)
+			\t stack.push(int(grate_gamepads[gamepad].z*100))
 			\t return
 		elif button == 3:
-			\t stack.push(grate_gamepads[gamepad].rz*100)
+			\t stack.push(int(grate_gamepads[gamepad].rz*100))
 			\t return
 	}
 
