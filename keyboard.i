@@ -4,7 +4,7 @@ macro CheckPressed(k, q, id) {
 	else
 		NotPressedNow()
 	end
-	if pressed_keys[id]
+	if pressedkeys[id]
 		PressedBefore()
 	else
 		NotPressedBefore()
@@ -12,20 +12,20 @@ macro CheckPressed(k, q, id) {
 	
 	if PressedNow and NotPressedBefore
 		pressed += q	
-		pressed_keys[id] = true
+		pressedkeys[id] = true
 	elseif NotPressedNow and PressedBefore
 		released += q
-		pressed_keys[id] = false
+		pressedkeys[id] = false
 	end
 }
 
 type Keyboard {
-	[]pressed_keys
+	[]pressedkeys
 }
 
 method Keyboard.pressed() {
-	if len(pressed_keys) = 0
-		pressed_keys = array(30)
+	if len(pressedkeys) = 0
+		pressedkeys = array(30)
 		print("hello")
 	end
 	
