@@ -14,7 +14,7 @@ macro capital_letter_key(code) {
 	.python { 
 		if grate_keys[key.code]:
 			\t stack.push(1)
-			\t return;
+			\t return
 	}
 }
 
