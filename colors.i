@@ -1,21 +1,19 @@
-.python grate_color = (255, 255, 255, 255)
 
-type Color {
-	r, g, b, a
+type color {}
+
+method color.red() {
+	set.color(255, 0, 0)
 }
 
-function fill(r, g, b, a) {
-	.python global grate_color
-	.python grate_color = (r, g, b, 255-a)
+method color.green() {
+	set.color(0, 255, 0)
 }
 
-method set(Color) {
-	.python global grate_color
-	var R = r
-	var G = g
-	var B = b
-	var A = a	
-	
+method color.blue() {
+	set.color(0, 0, 255)
+}
+
+/*method set(Color) {
 	.go {
 		op.ColorM.Reset()
 		op.ColorM.Translate(
@@ -26,10 +24,7 @@ method set(Color) {
 		)
 	}
 	
-	.python grate_color = (R, G, B, 255-A)
-	
 	.java MainActivity . paint . setColor ( MainActivity . rgb ( R.intValue() , G.intValue() , B.intValue(), 255 - A.intValue() ) ) ;
 
-	.javascript context.fillStyle = " rgba( "+R+" , "+G+" , "+B+" , "+(255-A.toJSNumber())+" ) "
 	.qml context.fillStyle = "rgba("+R+", "+G+", "+B+", "+(255-A.toJSNumber())+")"
-}
+}*/
