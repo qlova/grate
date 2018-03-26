@@ -30,6 +30,9 @@
 		\t glLoadIdentity()
 		\t glScalef(0.1, 0.1, 0.1)
 		
+		\t glEnable(GL_BLEND)
+		\t glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
+		
 		\t stack.share(game)
 		\t draw_m_Graphics(stack)
 		
