@@ -1,6 +1,6 @@
 .python {
 	grate_font = None
-	grate_label = pyglet.text.Label("", font_name="Times New Roman",font_size=360,x=10, y=10)
+	grate_label = pyglet.text.Label("", font_name="Times New Roman",font_size=36,x=0, y=0, anchor_y="top")
 }
 
 
@@ -30,8 +30,8 @@ function display(""txt, x, y) {
 	
 	.python {
 		glPushMatrix()
-		glScalef(1.0, -1.0, 1.0)
-		glTranslatef(0, -window.height, 1.0)
+		glScalef(10.0, -10.0, 1.0)
+		glTranslatef(x/10, y/10, 1.0)
 		t = ""
 		for i in range(0, len(txt)):
 			\t t = t + chr(txt[i])
