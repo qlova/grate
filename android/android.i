@@ -1,5 +1,5 @@
-package nz.co.qlova.grateapp;
-
+.android {
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -9,8 +9,6 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.support.annotation.MainThread;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -20,7 +18,7 @@ import java.io.File;
 import java.io.InputStream;
 import java.util.Hashtable;
 
-public class MainActivity extends AppCompatActivity implements SensorEventListener {
+public class MainActivity extends Activity implements SensorEventListener {
 
     Stack.Array game;
     Stack stack = new Stack();
@@ -33,6 +31,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     static int touchx, touchy;
     static boolean touching;
+    
+    static MyView view;
+    
+    static float ratio = ((float)55)/((float)160);
 
     SensorManager sman;
     Sensor accel;
@@ -41,8 +43,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     static Hashtable<String, Drawable> images = new Hashtable<String, Drawable>();
 
-    private static float SENSITIVITY = 2.5f;
+    private static float SENSITIVITY = (float)2.5;
 
+    //Set.i
+    static float setting_offsetx, setting_offsety, setting_angle;
+    
     @Override
     public void onSensorChanged(SensorEvent event) {
         Sensor s = event.sensor;
@@ -64,6 +69,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     }
 
+    static public int rgb(int r, int g, int b) {
+		return Color.argb(255, r, g, b);
+    }
+    
     private View.OnTouchListener handleTouch = new View.OnTouchListener() {
 
         @Override
@@ -149,8 +158,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        MyView view = new MyView(this);
+        view = new MyView(this);
         view.setOnTouchListener(handleTouch);
+        
         setContentView(view);
 
         paint.setTextSize(20);
@@ -161,6 +171,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         sman = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         accel = sman.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        
+        ratio = (float)context.getResources().getDisplayMetrics().xdpi;
+        System.out.println(ratio);
     }
 
     static int rgb(int r, int g, int b, int a) {
@@ -189,31 +202,43 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         protected void onDraw(Canvas c) {
             // TODO Auto-generated method stub
             super.onDraw(c);
+            
+            if (canvas == null) {
+				System.out.println(c.getWidth());
+				System.out.println(c.getHeight());
+            }
+            
             canvas = c;
+            
+            
 
             //Setup game.
             if (game == null) {
-                Game.Game(stack);
+                I.Graphics(stack);
                 game = stack.grab();
-
-                paint.setColor(Color.BLACK);
-                paint.setStyle(Paint.Style.FILL);
-                canvas.drawPaint(paint);
-                paint.setColor(Color.WHITE);
+                
+                stack.share(game);
+				I.new_m_Graphics(stack);
             } else {
             	canvas.drawPaint(paint);
             }
             
+			paint.setColor(Color.BLACK);
+			paint.setStyle(Paint.Style.FILL);
+			canvas.drawPaint(paint);
+			paint.setColor(Color.WHITE);
+			
+			
 
             currentTime = System.currentTimeMillis();
             dt = currentTime - lastTime;
             lastTime = currentTime;
 
             stack.share(game);
-            Game.draw_m_Game(stack);
+            I.draw_m_Graphics(stack);
 
             stack.share(game);
-            Game.update_m_Game(stack);
+            I.update_m_Graphics(stack);
 
             try {
                 Thread.sleep(1000/60-dt);
@@ -236,4 +261,5 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         sman.unregisterListener(this);
     }
 }
-
+class I \{
+}

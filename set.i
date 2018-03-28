@@ -20,6 +20,12 @@ type set {}
 }
 
 method set.defaults() {
+	.android {
+		MainActivity.setting_angle = 1;
+		MainActivity.setting_offsetx = 0;
+		MainActivity.setting_offsety = 0;
+	}
+
 	.javascript {
 		var last = setting_color[setting_color.length-2]
 		setting_color[setting_color.length-1] = [last[0], last[1], last[2], 1]
@@ -41,6 +47,12 @@ method set.defaults() {
 }
 
 method set.environment() {
+	.android {
+		MainActivity.canvas.save();
+		MainActivity.canvas.translate(MainActivity.setting_offsetx, MainActivity.setting_offsety);
+		MainActivity.canvas.rotate(MainActivity.setting_angle);
+	}
+
 	.javascript {
 		context.save();
 		var last = setting_color[setting_color.length-2];
@@ -62,6 +74,10 @@ method set.environment() {
 }
 
 method set.decay() {
+	.android {
+		MainActivity.canvas.restore();
+	}
+
 	.javascript {
 		context.restore();
 		setting_color.pop();
@@ -75,6 +91,10 @@ method set.decay() {
 }
 
 method set.color(r, g, b) {
+	.android {
+		MainActivity.paint.setColor(MainActivity.rgb(r.intValue(), g.intValue(), b.intValue()));
+	}
+
 	.javascript {
 		var color = setting_color[setting_color.length-1];
 		color[0] = r;
@@ -103,6 +123,10 @@ method set.opacity(a) {
 }
 
 method set.angle(.2 deg) {
+	.android {
+		MainActivity.setting_angle = (float)(deg.intValue()) * (float)Math.PI/180;
+	}
+
 	.javascript {
 		setting_angle = (deg.toJSNumber()/100)*Math.PI/180;
 	}
@@ -121,6 +145,11 @@ method set.scale(.2 x, .2 y) {
 }
 
 method set.offset(.2 x, .2 y) {
+	.android {
+		MainActivity.setting_offsetx = ((float)x.intValue())/1000;
+		MainActivity.setting_offsety = ((float)y.intValue())/1000;
+	}
+
 	.javascript {
 		setting_offsetx = x.toJSNumber()/1000;
 		setting_offsety = y.toJSNumber()/1000;

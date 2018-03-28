@@ -1,3 +1,5 @@
+import android
+
 .go import "github.com/hajimehoshi/ebiten"
 .go import "github.com/hajimehoshi/ebiten/ebitenutil"
 .go import "github.com/hajimehoshi/ebiten/examples/common"
@@ -208,7 +210,7 @@ function up() n {
 function width() n {
 	var n = 0
 	
-	.java n = new Stack.Number(MainActivity.canvas.getWidth()*10);
+	.android n = new Stack.Number(MainActivity.view.getWidth()*10);
 	
 	.python n = window.width*10
 	
@@ -228,7 +230,7 @@ function width() n {
 function height() n {
 	var n = 0
 	
-	.java n = new Stack.Number(MainActivity.canvas.getHeight()*10);
+	.android n = new Stack.Number(MainActivity.view.getHeight()*10);
 	
 	.lua n = bigint(love.graphics.getHeight()*10)
 	

@@ -39,6 +39,10 @@ function display(""txt, x, y) {
 		grate_label.draw()
 		glPopMatrix()
 	}
+	
+	.android {
+		MainActivity.canvas.drawText(txt.String(), x.intValue()/10, y.intValue()/10+MainActivity.paint.getTextSize(), MainActivity.paint);
+	}
 }
 
 /*type Text {
@@ -81,8 +85,6 @@ method draw(Text) {
 		op.GeoM.Translate(float64(X.ToInt()/10), float64(Y.ToInt()/10))
 		Screen.DrawImage(img, &op)
 	}
-	
-	.java MainActivity.canvas.drawText(Txt.String(), X.intValue()/10, Y.intValue()/10+MainActivity.paint.getTextSize(), MainActivity.paint);
 	
 	.qml {
 		var name = ""

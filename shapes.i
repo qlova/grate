@@ -58,6 +58,17 @@ function triangle(x, y, w, h, v) {
 }
 
 function oval(x, y, w, h) {
+	.android {
+		
+		//MainActivity.canvas.save();
+		//MainActivity.canvas.translate(MainActivity.setting_offsetx, MainActivity.setting_offsety);
+	
+		MainActivity.canvas.drawCircle(x.intValue()/10+MainActivity.setting_offsetx, 
+			y.intValue()/10+MainActivity.setting_offsety, w.intValue()/10, MainActivity.paint);
+		
+		//MainActivity.canvas.restore();
+	}
+
 	.python {
 	
 		iterations = int(2*w*math.pi)
@@ -107,6 +118,19 @@ function circle(x, y, r) {
 
 
 function rectangle(x, y, w, h) {	
+	.android {
+		float X, Y, W, H;
+		X = (float)(x.intValue()/10)+MainActivity.setting_offsetx;
+		Y = (float)(y.intValue()/10)+MainActivity.setting_offsety;
+		W = (float)(w.intValue()/10);
+		H = (float)(h.intValue()/10);
+		X -= W/2;
+		Y -= H/2;
+		W += X;
+		H += Y;
+		MainActivity.canvas.drawRect(X, Y, W, H, MainActivity.paint);
+	}
+
 	.javascript {
 		var X = x.toJSNumber()/10 + setting_offsetx
 		var Y = y.toJSNumber()/10 + setting_offsety
@@ -148,8 +172,6 @@ function square(x, y, s) {
 
 
 /*method draw(Circle) {	
-	.java MainActivity.canvas.drawCircle(x.intValue()/10, y.intValue()/10, r.intValue()/10, MainActivity.paint);
-	
 	.lua love.graphics.circle("fill", tonumber(tostring(x))/10, tonumber(tostring(y))/10, tonumber(tostring(r))/10)
 	
 	.qml context.beginPath(); context.arc(x/10, y/10, r/10, 0, 2*Math.PI, false); context.fill();
