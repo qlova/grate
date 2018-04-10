@@ -1,4 +1,73 @@
-macro CheckPressed(k, q, id) {
+.javascript grate_keys = {}
+.javascript grate_pressed = []
+.javascript grate_released = []
+
+.python {
+	grate_pressed = []
+	def on_key_press(symbol, modifiers):	
+		\t global grate_pressed
+		\t if (symbol >= 97 and symbol <= 122):
+			\t\t if grate_keys[key.LSHIFT]: 
+			\t\t\t grate_pressed.append(symbol-32)
+			\t\t else:
+			\t\t\t grate_pressed.append(symbol)
+		\t else:
+			\t\t if symbol == key.BACKSPACE:
+			\t\t\t grate_pressed.append(8)
+			\t\t elif symbol == key.SPACE:
+			\t\t\t grate_pressed.append(32)
+		
+	window.on_key_press = on_key_press
+}
+
+type keys {}
+
+method keys.pressed() {
+	
+	.python {
+		global grate_pressed
+		if (True):
+			\t a = 0
+			\t b = 0
+			\t if len(grate_pressed) > 0:
+				\t\t a = grate_pressed[0]
+			\t if len(grate_pressed) > 1:
+				\t\t b = grate_pressed[1]
+			\t if len(grate_pressed) > 0:
+				\t\t Network_SendSets(100, a, b)
+			\t grate_pressed = []
+			
+			\t r = Network_GetSets(100)
+			\t if r:
+				\t\t if r[0] == 0:
+					\t\t\t stack.share([])
+				\t\t elif r[1] == 0:
+					\t\t\t stack.share([r[0]])
+				\t\t else:
+					\t\t\t stack.share(r)
+				\t\t return
+	}
+	
+	.javascript {
+		if (true) {
+			stack.share(grate_pressed);
+			grate_pressed = [];
+			return;
+		}
+	}
+	
+	.android {
+		if (true) {
+			stack.share(MainActivity.grate_pressed);
+			MainActivity.grate_pressed = new Stack.Array();
+			return;
+		}
+	}
+	
+	return ""
+}
+
+/*macro CheckPressed(k, q, id) {
 	if key.k()
 		PressedNow()
 	else
@@ -100,4 +169,4 @@ method Keyboard.pressed() {
 	
 	
 	return pressed
-}
+}*/

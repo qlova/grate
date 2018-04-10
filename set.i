@@ -15,6 +15,8 @@ type set {}
 .python {
 	setting_offsetx = 0
 	setting_offsety = 0
+	setting_scalex = 1
+	setting_scaley = 1
 	setting_angle = 0
 	grate_color = (255, 255, 255, 1)
 }
@@ -40,9 +42,14 @@ method set.defaults() {
 		global setting_offsetx
 		global setting_offsety
 		global setting_angle
+		global setting_scalex
+		global setting_scaley
+		
 		setting_offsetx = 0
 		setting_offsety = 0
 		setting_angle = 0
+		setting_scalex = 1
+		setting_scaley = 1
 	}
 }
 
@@ -66,8 +73,10 @@ method set.environment() {
 	
 	.python {
 		glPushMatrix()
+		
 		glTranslatef(setting_offsetx, setting_offsety, 0)
 		glRotatef(setting_angle, 0, 0, 1.0)
+		glScalef(setting_scalex, setting_scaley, 1)
 	}
 	
 	set.defaults()
@@ -124,7 +133,7 @@ method set.opacity(a) {
 
 method set.angle(.2 deg) {
 	.android {
-		MainActivity.setting_angle = (float)(deg.intValue()) * (float)Math.PI/180;
+		MainActivity.setting_angle = (float)(deg.intValue())/100;
 	}
 
 	.javascript {
@@ -141,6 +150,13 @@ method set.scale(.2 x, .2 y) {
 	.javascript {
 		setting_scalex = x.toJSNumber()/100;
 		setting_scaley = y.toJSNumber()/100;
+	}
+	
+	.python {
+		global setting_scalex
+		global setting_scaley
+		setting_scalex = x/100;
+		setting_scaley = y/100;
 	}
 }
 

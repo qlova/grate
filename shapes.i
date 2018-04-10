@@ -3,6 +3,31 @@ type Circle {
 }
 
 function triangle(x, y, w, h, v) {
+	.android {
+	
+		MainActivity.canvas.save();
+		
+		
+		float X = x.intValue()/10;
+		float Y = y.intValue()/10;	
+		float W = w.intValue()/10;	
+		float H = h.intValue()/10;	
+		float V = v.intValue()/10;	
+		
+		MainActivity.canvas.translate(X, Y);
+		MainActivity.canvas.rotate(MainActivity.setting_angle);
+		MainActivity.canvas.translate(-X, -Y);
+		
+		android.graphics.Path path = new android.graphics.Path();
+		path.moveTo(X-W/2, Y+H/2);
+		path.lineTo(X+V, Y-H/2);
+		path.lineTo(X+W/2, Y+H/2);
+		
+		MainActivity.canvas.drawPath(path, MainActivity.paint);
+		
+		MainActivity.canvas.restore();
+	}
+	
 	.javascript {
 		context.save()
 		

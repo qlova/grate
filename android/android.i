@@ -4,6 +4,8 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -13,10 +15,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.KeyEvent;
 
 import java.io.File;
 import java.io.InputStream;
 import java.util.Hashtable;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.concurrent.ArrayBlockingQueue;
 
 public class MainActivity extends Activity implements SensorEventListener {
 
@@ -41,12 +47,18 @@ public class MainActivity extends Activity implements SensorEventListener {
 
     static boolean AccelerometerControl;
 
-    static Hashtable<String, Drawable> images = new Hashtable<String, Drawable>();
+    static List<Bitmap> images = new ArrayList<Bitmap>();
+    
+    static Hashtable<Integer, Boolean> grate_keys = new Hashtable<Integer, Boolean>();
+    
+    static Stack.Array grate_pressed = new Stack.Array();
 
     private static float SENSITIVITY = (float)2.5;
 
     //Set.i
     static float setting_offsetx, setting_offsety, setting_angle;
+    
+    static String[] Arguments;
     
     @Override
     public void onSensorChanged(SensorEvent event) {
@@ -63,6 +75,39 @@ public class MainActivity extends Activity implements SensorEventListener {
     static public int delta() {
        return (int)(dt*10);
     }
+    
+    @Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		grate_keys.put(keyCode, true);
+		
+		if (event.getRepeatCount() == 0) {
+			if (keyCode >= 29 && keyCode <= 54) {
+				Boolean shift1 = grate_keys.get(KeyEvent.KEYCODE_SHIFT_LEFT);
+				Boolean shift2 = grate_keys.get(KeyEvent.KEYCODE_SHIFT_RIGHT);
+				if ((shift1 != null && shift1) || (shift2 != null && shift2)) {
+					grate_pressed.push(new Stack.Number(keyCode+36));
+				} else {
+					grate_pressed.push(new Stack.Number(keyCode+68));
+				}
+			}
+			
+			if (keyCode == KeyEvent.KEYCODE_DEL) {
+				grate_pressed.push(new Stack.Number(8));
+			}
+			
+			if (keyCode == KeyEvent.KEYCODE_SPACE) {
+				grate_pressed.push(new Stack.Number(32));
+			}
+		}
+		
+		return super.onKeyDown(keyCode, event);
+	}
+
+	 @Override
+	public boolean onKeyUp(int keyCode, KeyEvent event) {
+		grate_keys.put(keyCode, false);
+		return super.onKeyUp(keyCode, event);
+	}
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
@@ -157,6 +202,31 @@ public class MainActivity extends Activity implements SensorEventListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
+       
+        Bundle bundle = getIntent().getExtras();
+        
+        if (bundle != null) {
+			int i = 0;
+			while (true) {
+				String s = bundle.getString(""+i);
+				if (s == null || s.equals("")) {
+					break;
+				}
+				i++;
+			}
+			stack.Arguments = new String[i];
+			
+			i = 0;
+			while (true) {
+				String s = bundle.getString(""+i);
+				if (s == null || s.equals("")) {
+					break;
+				}
+				stack.Arguments[i] = s;
+				i++;
+			}
+		}
 
         view = new MyView(this);
         view.setOnTouchListener(handleTouch);
@@ -180,16 +250,20 @@ public class MainActivity extends Activity implements SensorEventListener {
         return Color.argb(a, r, g, b);
     }
 
-    static public void loadImage(String p) {
+    static public int loadImage(String p) {
         if (p.contains("/")) {
             p = p.split("/")[1];
         }
         try {
             InputStream is = context.getAssets().open(p);
-            images.put(p, Drawable.createFromStream(is, p));
+            images.add(BitmapFactory.decodeStream(is));
+            
+            return images.size()-1;
+            
         }catch (Exception e) {
-            Log.d("null",p+e.getMessage());
+           System.out.println(p+e.getMessage());
         }
+        return -1;
     }
 
     public class MyView extends View {
@@ -214,11 +288,8 @@ public class MainActivity extends Activity implements SensorEventListener {
 
             //Setup game.
             if (game == null) {
-                I.Graphics(stack);
-                game = stack.grab();
-                
-                stack.share(game);
 				I.new_m_Graphics(stack);
+				game = stack.grab();
             } else {
             	canvas.drawPaint(paint);
             }
@@ -241,7 +312,7 @@ public class MainActivity extends Activity implements SensorEventListener {
             I.update_m_Graphics(stack);
 
             try {
-                Thread.sleep(1000/60-dt);
+                Thread.sleep(1000/30-dt);
             } catch (Exception e) {
 
             }

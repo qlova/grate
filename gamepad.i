@@ -42,7 +42,8 @@ method gamepad.down(button) {
 	
 	.python {
 		if len(grate_gamepads) > gamepad and grate_gamepads[gamepad].buttons[button]:
-			\t stack.push(1)
+			\t Network_SendCode(74, gamepad, button)
+		if Network_GetCode(74, gamepad, button):
 			\t return
 	}
 
@@ -63,21 +64,49 @@ method gamepad.axis(button) {
 	}
 	
 	.python {
-		if len(grate_gamepads) <= gamepad:
-			\t stack.push(0)
-			\t return
+		if (len(grate_gamepads) > gamepad):
+			\t if button == 0:
+				\t\t Network_SendBoth(150, gamepad, int(grate_gamepads[gamepad].x*125)+125)
+			\t elif button == 1:
+				\t\t Network_SendBoth(151, gamepad, int(grate_gamepads[gamepad].y*125)+125)
+			\t elif button == 2:
+				\t\t Network_SendBoth(152, gamepad, int(grate_gamepads[gamepad].z*125)+125)
+			\t elif button == 3:
+				\t\t Network_SendBoth(153, gamepad, int(grate_gamepads[gamepad].rz*125)+125)
+
 		if button == 0:
-			\t stack.push(int(grate_gamepads[gamepad].x*100))
+			\t v = Network_GetBoth(150, gamepad)
+			\t if v >= 0:
+			\t\t v = v-125
+			\t else:
+			\t\t v = 0
+			\t stack.push(v)
 			\t return
 		elif button == 1:
-			\t stack.push(int(grate_gamepads[gamepad].y*100))
+			\t v = Network_GetBoth(151, gamepad)
+			\t if v >= 0:
+			\t\t v = v-125
+			\t else:
+			\t\t v = 0
+			\t stack.push(v)
 			\t return
 		elif button == 2:
-			\t stack.push(int(grate_gamepads[gamepad].z*100))
+			\t v = Network_GetBoth(152, gamepad)
+			\t if v >= 0:
+			\t\t v = v-125
+			\t else:
+			\t\t v = 0
+			\t stack.push(v)
 			\t return
 		elif button == 3:
-			\t stack.push(int(grate_gamepads[gamepad].rz*100))
+			\t v = Network_GetBoth(153, gamepad)
+			\t if v >= 0:
+			\t\t v = v-125
+			\t else:
+			\t\t v = 0
+			\t stack.push(v)
 			\t return
+		
 	}
 
 	return 0

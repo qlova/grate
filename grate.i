@@ -8,6 +8,7 @@ import android
 .python import pyglet
 .python import sys
 .python import math
+.python import queue
 .python from pyglet.gl import *
 .python from pyglet.window import key
 
@@ -56,10 +57,8 @@ import mouse
 import keys
 import keyboard
 import gamepad
-
-plugin Graphics {
-	{Keyboard} keys
-}
+import networking
+import math
 
 .qml var grate_left   = false
 .qml var grate_right  = false
@@ -286,7 +285,6 @@ function clear() {
 .javascript grate_width  = 0
 .javascript grate_height = 0
 .javascript grate_dt = 0
-.javascript grate_keys = {}
 
 .qml var context = null
 .qml var grate_width = 0
@@ -386,6 +384,20 @@ function grate() {
 		window.onkeydown=function(e){
 			 e = e
 			 grate_keys[e.keyCode] = true;
+			 
+			if (e.keyCode >= 65 && e.keyCode <= 122) {
+				if (grate_keys[16]) {
+					grate_pressed.push(bigInt(e.keyCode));
+				} else {
+					grate_pressed.push(bigInt(e.keyCode+32));
+				}
+			}
+			
+			if (e.keyCode == 32 || e.keyCode == 8) {
+				grate_pressed.push(bigInt(e.keyCode));
+			}
+			
+			
 			if (grate_fullscreen) {
 				requestFullScreen(canvas)
 			}
@@ -393,6 +405,7 @@ function grate() {
 
 		window.onkeyup=function(e){
 			 e = e
+			 grate_released.push(bigInt(e.keyCode));
 			 delete grate_keys[e.keyCode];
 		}
 		
