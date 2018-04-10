@@ -403,7 +403,7 @@ function grate() {
 		var prevTime = curTime;
 		var curTime = (new Date()).getTime();
 
-		var FPS = 60
+		var FPS = 30
 		setInterval(function() {
 			prevTime = curTime;
 			curTime = (new Date()).getTime();
@@ -439,12 +439,11 @@ function grate() {
 
 	.python {
 		global game
-		
-		Graphics(stack)
+
 		new_m_Graphics(stack)
 		game = stack.grab()
 		
-		pyglet.clock.schedule_interval(on_update, 1/60.0)
+		pyglet.clock.schedule_interval(on_update, 1/30.0)
 		pyglet.app.run()
 		
 	}
